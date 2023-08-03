@@ -1,0 +1,42 @@
+// Assuming you have the JSON data available in a variable called jsonData
+var jsonData = {
+    // ... JSON data ...
+};
+
+// Function to display the data in the table
+function displayDataInTable(data) {
+    var tableBody = document.querySelector('#data-table tbody');
+
+    data.forEach(function(person) {
+        var row = document.createElement('tr');
+
+        // Create table cells and set their content from the JSON data
+        var idCell = document.createElement('td');
+        idCell.textContent = person.id;
+        row.appendChild(idCell);
+
+        var firstNameCell = document.createElement('td');
+        firstNameCell.textContent = person.first_name;
+        row.appendChild(firstNameCell);
+
+        var lastNameCell = document.createElement('td');
+        lastNameCell.textContent = person.last_name;
+        row.appendChild(lastNameCell);
+
+        var emailCell = document.createElement('td');
+        emailCell.textContent = person.email;
+        row.appendChild(emailCell);
+
+        var avatarCell = document.createElement('td');
+        var avatarImg = document.createElement('img');
+        avatarImg.src = person.avatar;
+        avatarImg.alt = person.first_name;
+        avatarCell.appendChild(avatarImg);
+        row.appendChild(avatarCell);
+
+        tableBody.appendChild(row);
+    });
+}
+
+// Call the function to display the data in the table
+displayDataInTable(jsonData.data);
