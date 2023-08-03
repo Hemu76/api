@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dynamic Table Creation</title>
+</head>
+<body>
+    <button onclick="mud()">showdata</button>
+    <div id="table-container"></div>
+    <script>
+    function mud() {
+        var tableColumns = ['id', 'email', 'first_name', 'last_name', 'avatar'];   
+        var xhr = new XMLHttpRequest();
+        var apiURL = 'https://reqres.in/api/users?page=1'; // A real working API URL
+        xhr.open('GET', apiURL, true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    createTable(response.data, tableColumns);
+                } else {
+                    console.error('Error occurred:', xhr.status, xhr.statusText);
+                }
+            }
+        };
+        xhr.send();
+    }
+    function createTable(data, columns) {
+        var tableContainer = document.getElementById('table-container');
+        tableContainer.innerHTML = '';
+        var table = document.createElement('table');
+        var tableHeader = document.createElement('thead');
+        var headerRow = document.createElement('tr');
+        columns.forEach(function(columnName) {
+            var headerCell = document.createElement('th');
+            headerCell.textContent = columnName;
+            headerRow.appendChild(headerCell);
+        });
+        tableHeader.appendChild(headerRow);
+        table.appendChild(tableHeader);
+        var tableBody = document.createElement('tbody');
+        data.forEach(function (item) {
+            var row = document.createElement('tr');
+            columns.forEach(function(columnName) {
+                var cell = document.createElement('td');
+                if (columnName === 'avatar') {
+                    // Use the avatar URL from the API response for the image source
+                    cell.innerHTML = '<img src="' + item[columnName] + '" alt="Avatar">';
+                } else {
+                    cell.textContent = item[columnName];
+                }
+                row.appendChild(cell);
+            });  
+            tableBody.appendChild(row);
+        });
+        table.appendChild(tableBody);
+        tableContainer.appendChild(table);
+    }
+    </script>
+</body>
+</html>
