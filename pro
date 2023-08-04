@@ -55,7 +55,32 @@ var items={
         productListContainer.appendChild(productElement1);
     });
 }
+function Search() {
+    var productListContainer = document.getElementById('tc');
+    var name=document.getElementById('pro').value;
+    var products = items.products;
+    // Loop through the products data and create product elements
+    var hi=1;
+    productListContainer.innerHTML="";
+    products.forEach(function(product) {
+        var productElement1 = document.createElement('div');
+        productElement1.className = 'product';
+        productElement1.innerHTML = `
+            <img src="img2.jpg" width="200" height="200"><br>
+            <a href="Product.html"><b>${product.name}</b></a> 
+            <p>Price: ${product.price}</p>
+            <p>${product.description}</p>
+        `;
 
+        if(name === product.name){
+            productListContainer.appendChild(productElement1);
+            hi=0;   
+        }
+    });
+    if(hi===1){
+        productListContainer.innerHTML="No elements found"
+    }
+}
 // Call the function to create the product list
 // function showProductsOnSearch(){
 //     var col = ['id','name','price','description','image'];
